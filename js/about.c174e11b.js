@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkpass_seminar"]=self["webpackChunkpass_seminar"]||[]).push([[443],{381:function(n,s,a){a.r(s),a.d(s,{default:function(){return l}});var e=a(252);const r={class:"about"},u=(0,e._)("h1",null,"This is an about page",-1),t=[u];function i(n,s){return(0,e.wg)(),(0,e.iD)("div",r,t)}var c=a(744);const o={},f=(0,c.Z)(o,[["render",i]]);var l=f}}]);
+//# sourceMappingURL=about.c174e11b.js.map
