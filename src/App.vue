@@ -1,30 +1,116 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
+  <div class="container">
+    <el-tabs @tab-click="handleClick" class="demo-tabs" v-model="editableTabsValue" type="card" >
+  <el-tab-pane
+    v-for="(item, index) in subjectTabs"
+    :key="item.id"
+    :label="item.text"
+    :name="item.text"
+    >
+  </el-tab-pane>
+</el-tabs>
   <router-view/>
+
+  </div>
 </template>
+<script>
+/* eslint-disable no-unused-vars */
+import { v4 as uuidv4 } from 'uuid';
+import { mapState } from 'vuex';
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+
+
+export default {
+  components: {},
+	beforeCreate() {
+		this.$store.commit('initialiseStore');
+	},
+
+
+
+  data: function () {
+    return {
+      editableTabsValue: '2',
+        editableTabs: [{
+          title: 'Tab 1',
+          name: '1',
+          content: 'Tab 1 content'
+        }, {
+          title: 'Tab 2',
+          name: '2',
+          content: 'Tab 2 content'
+        }],
+        tabIndex: 2,
+    };
+  },
+  async mounted() {},
+  methods: {
+      async handleClick(obj, event) {
+        console.log(obj.$vnode.key)
+        console.log(obj.label) 
+        if(obj.label==="SID"){
+          this.$router.push('/')
+        } else {
+        this.$router.push('/SBD/' + (obj.$vnode.key))
+        }
+      },
+  },
+     computed: {
+      
+    nodes(){
+      return this.$store.state.nodes
+    },
+       connections(){
+      return this.$store.state.connections
+    },
+     subjectTabs() {
+       return [{id : uuidv4(), text: "SID"}].concat(this.$store.state.nodes).filter(subject => subject.type != "extern") 
+     }
+  }, 
+  watch: {
+
+   nodes: {
+      handler() {
+      sessionStorage.setItem('store', JSON.stringify(this.$store.state));
+      },
+      deep: true
+   },
+      connections: {
+      handler() {
+      sessionStorage.setItem('store', JSON.stringify(this.$store.state));
+      },
+      deep: true
+   },
+  }
+
+};
+</script>
+
+<style scoped>
+#toolbar {
+  margin-bottom: 12px;
 }
 
-nav {
-  padding: 30px;
+.title {
+  margin-bottom: 0px;
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+
+#toolbar > button {
+  margin-right: 4px;
+  margin-left: 10px;
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
+
+.container {
+  width: 100%;
+  margin: auto;
 }
+
+.tabs{
+  margin-left: 2px;
+  margin-top: 10px;
+
+}
+
 </style>
